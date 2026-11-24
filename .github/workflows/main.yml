@@ -1,0 +1,53 @@
+name: Gerar APK Offline
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Instalar dependencias e Capacitor Android
+        run: |
+          npm install --legacy-peer-deps
+          npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/assets --legacy-peer-deps
+
+      - name: Compilar Web e sincronizar Android
+        run: |
+          npm run build
+          npx cap add android
+          sed -i 's/versionCode 1/versionCode 2/g' android/app/build.gradle
+          sed -i 's/versionName "1.0"/versionName "1.1"/g' android/app/build.gradle
+          mkdir -p assets
+          cp public/pwa-512x512.png assets/icon.png
+          cp public/pwa-512x512.png assets/splash.png
+          npx capacitor-assets generate --android
+          npx cap sync
+
+      - name: Gerar APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Salvar APK para download
+        uses: actions/upload-artifact@v4
+        with:
+          name: flappy-frog-offline-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
