@@ -28,9 +28,7 @@ jobs:
           npm install --legacy-peer-deps
           npm install @capacitor/core @capacitor/cli @capacitor/android @capacitor/assets --legacy-peer-deps
 
-      - name: Compilar Web e sincronizar Android
-        run: |
-          - name: Compilar Web e sincronizar Android
+       - name: Compilar Web e sincronizar Android
         run: |
           npm run build
           npx cap add android
