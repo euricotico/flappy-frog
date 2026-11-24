@@ -1,6 +1,0 @@
-{
-  "name": "Sapinho Voador",
-  "description": "Jogo estilo Flappy Bird estrelado por um sapinho amarelo saltitante sobre um lago ensolarado.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
