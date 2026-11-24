@@ -1,0 +1,10 @@
+{
+  "appId": "com.sapinhovoador.game",
+  "appName": "Sapinho Voador",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "android": {
+    "backgroundColor": "#1B4332",
+    "allowMixedContent": false
+  }
+}
